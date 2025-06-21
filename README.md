@@ -32,11 +32,17 @@ A Streamlit-based route planning application for Dehradun, India. This app helps
 
 .
 ├── app.py # Main Streamlit app
+
 ├── dehradun_crime_synthetic_data.csv # Synthetic crime dataset
+
 ├── src/
+
 │ └── config/
+
 │ └── config.py # Configuration: API keys, constants, weights
+
 ├── requirements.txt # Dependencies
+
 └── README.md # This file
 
 ✅ Requirements
