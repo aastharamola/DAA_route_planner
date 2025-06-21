@@ -39,14 +39,26 @@ A Streamlit-based route planning application for Dehradun, India. This app helps
 ├── requirements.txt # Dependencies
 └── README.md # This file
 
+✅ Requirements
+Python 3.9+
 
----
+Streamlit
+
+OpenRouteService
+
+Folium
+
+Pandas
+
+NumPy
+
+Geopy
+
+All listed in requirements.txt.
 
 ## ⚙️ Setup Instructions
 
 ### 1. Clone the Repository
-
-```bash
 git clone https://github.com/your-username/dehradun-route-planner.git
 cd dehradun-route-planner
 
@@ -55,10 +67,10 @@ cd dehradun-route-planner
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-3. Install Dependencies
-pip install -r requirements.txt
+## 3. Install Dependencies
+pip install -r requirements.tx
 
-4. Add Configuration
+## 4. Add Configuration
 Edit or create the file at src/config/config.py:
 ORS_API_KEY = "your_openrouteservice_api_key"
 DEFAULT_SAFETY_THRESHOLD = 70
@@ -83,10 +95,10 @@ CRIME_WEIGHTS = {
     "Other": 1
 }
 
-5. Run the App
+## 5. Run the App
 streamlit run app.py
 
-📊 Data
+## 📊 Data
 The app uses synthetic crime data for Dehradun (dehradun_crime_synthetic_data.csv) with the following fields:
 
 Location (area/neighborhood)
@@ -95,20 +107,15 @@ Crime_Type (e.g., Theft, Robbery, etc.)
 
 Crime types are weighted using the CRIME_WEIGHTS dictionary in config.py.
 
-💡 Usage
+## 💡 Usage
 Enter start and end locations manually or by clicking on the map.
-
 Adjust the safety threshold and distance limit in the sidebar.
-
 The app will compute and display:
-
 Dijkstra route (blue)
-
 A route* (green)
-
 Safety score influences path selection (routes through unsafe areas are avoided).
 
-📞 Emergency Contact Info
+## 📞 Emergency Contact Info
 Available in the sidebar for quick reference:
 
 🚓 Police: 100
@@ -117,7 +124,7 @@ Available in the sidebar for quick reference:
 
 🔥 Fire Station: 101
 
-🧪 Sample Test Locations
+## 🧪 Sample Test Locations
 Try using:
 
 ISBT Dehradun
@@ -128,7 +135,16 @@ Clock Tower
 
 Ballupur Chowk
 
-🛠️ TODO / Enhancements
+## 📦 Example Use Cases
+Urban logistics optimization
+
+Delivery route planning with safety constraints
+
+Real-time police dispatch routing
+
+Urban planning and crime analysis visualization
+
+## 🛠️ TODO / Enhancements
 ✅ Add UI to toggle between routing algorithms
 
 📍 Allow saving named locations
@@ -139,5 +155,5 @@ Ballupur Chowk
 
 📦 Export route summary
 
-📜 License
+## 📜 License
 This project is released under the MIT License.
