@@ -50,23 +50,16 @@ A Streamlit-based route planning application for Dehradun, India. This app helps
 git clone https://github.com/your-username/dehradun-route-planner.git
 cd dehradun-route-planner
 
-2. Create a Virtual Environment (Optional)
-bash
-Copy
-Edit
+
+## 2. Create a Virtual Environment (Optional)
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
+
 3. Install Dependencies
-bash
-Copy
-Edit
 pip install -r requirements.txt
+
 4. Add Configuration
 Edit or create the file at src/config/config.py:
-
-python
-Copy
-Edit
 ORS_API_KEY = "your_openrouteservice_api_key"
 DEFAULT_SAFETY_THRESHOLD = 70
 EMERGENCY_CONTACTS = {
@@ -89,10 +82,8 @@ CRIME_WEIGHTS = {
     "Vandalism": 1,
     "Other": 1
 }
+
 5. Run the App
-bash
-Copy
-Edit
 streamlit run app.py
 
 📊 Data
