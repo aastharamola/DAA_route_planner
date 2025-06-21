@@ -1,153 +1,152 @@
-# Optimized Safe Route Planner
+# 🚦 Dehradun Route Planner 🛣️
 
-This project implements an optimized route planning system that combines Modified Dijkstra's and A* algorithms to find the safest and most efficient routes between locations. The system takes into account various safety factors and road conditions to provide optimal routing solutions.
+A Streamlit-based route planning application for Dehradun, India. This app helps users find the safest and most efficient route between two locations by combining road network data with synthetic crime statistics.
 
-## Features
+---
 
-- Modified Dijkstra's algorithm implementation for finding shortest paths
-- A* algorithm implementation with safety-based heuristics
-- Real-time safety data integration (crime, weather, lighting, accidents)
-- Interactive route visualization with color-coded risk levels
-- RESTful API for route planning and safety information
-- Multiple routing modes (safest, fastest, shortest)
-- Real-time safety alerts and incident reporting
-- Performance optimization for large networks
+## 📌 Features
 
-## Requirements
+- 🗺️ Interactive map of Dehradun using **Folium**
+- 🔍 Route planning with **Dijkstra** and **A*** algorithms
+- 🛡️ Safety-aware routing using location-based crime data
+- 🏥 Emergency contacts and distance limit alerts
+- 📍 Location selection via dropdown or interactive map
+- 🧠 Caching, dynamic safety scoring, and optimized pathfinding
+- 🚓 Visual indication of route safety on the map
+
+---
+
+## 🔧 Tech Stack
 
 - Python 3.8+
-- NetworkX
-- NumPy
-- Matplotlib
-- Folium (for map visualization)
-- FastAPI (for API server)
-- Geopy (for distance calculations)
-- Pandas (for data handling)
+- Streamlit
+- OpenRouteService
+- Folium & Streamlit-Folium
+- Pandas & NumPy
+- Geopy (for geocoding)
+- Custom crime-weighted routing logic
 
-## Installation
+---
 
-1. Clone this repository
-2. Install the required dependencies:
+## 📁 Project Structure
+
+.
+├── app.py # Main Streamlit app
+├── dehradun_crime_synthetic_data.csv # Synthetic crime dataset
+├── src/
+│ └── config/
+│ └── config.py # Configuration: API keys, constants, weights
+├── requirements.txt # Dependencies
+└── README.md # This file
+
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. Clone the Repository
+
 ```bash
+git clone https://github.com/your-username/dehradun-route-planner.git
+cd dehradun-route-planner
+
+2. Create a Virtual Environment (Optional)
+bash
+Copy
+Edit
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+3. Install Dependencies
+bash
+Copy
+Edit
 pip install -r requirements.txt
-```
+4. Add Configuration
+Edit or create the file at src/config/config.py:
 
-3. Set up environment variables:
-```bash
-# Create a .env file with your API keys
-CRIME_API_KEY=your_crime_api_key
-WEATHER_API_KEY=your_weather_api_key
-```
-
-## Usage
-
-### API Server
-
-Start the API server:
-```bash
-python api.py
-```
-
-The server will be available at `http://localhost:8000`
-
-### API Endpoints
-
-- `POST /locations` - Add a new location
-- `POST /connections` - Add a connection between locations
-- `POST /routes` - Find a route between locations
-- `GET /safety/{location_id}` - Get safety information for a location
-
-### Example API Usage
-
-```python
-import requests
-
-# Add a location
-location_data = {
-    "id": "Home",
-    "coordinates": (40.7128, -74.0060),
-    "safety_score": 0.9
+python
+Copy
+Edit
+ORS_API_KEY = "your_openrouteservice_api_key"
+DEFAULT_SAFETY_THRESHOLD = 70
+EMERGENCY_CONTACTS = {
+    "police": "100",
+    "ambulance": "108",
+    "fire_station": "101",
 }
-response = requests.post("http://localhost:8000/locations", json=location_data)
-
-# Find a route
-route_data = {
-    "start": "Home",
-    "end": "Work",
-    "use_astar": True,
-    "mode": "safest"
+MAP_DEFAULT_CENTER = [30.3165, 78.0322]  # Dehradun center
+DEHRADUN_BOUNDING_BOX = {
+    "min_lat": 30.2,
+    "max_lat": 30.5,
+    "min_lon": 77.9,
+    "max_lon": 78.3
 }
-response = requests.post("http://localhost:8000/routes", json=route_data)
-```
+CRIME_WEIGHTS = {
+    "Theft": 2,
+    "Assault": 3,
+    "Robbery": 4,
+    "Harassment": 1,
+    "Vandalism": 1,
+    "Other": 1
+}
+5. Run the App
+bash
+Copy
+Edit
+streamlit run app.py
 
-### Direct Usage
+📊 Data
+The app uses synthetic crime data for Dehradun (dehradun_crime_synthetic_data.csv) with the following fields:
 
-```python
-from route_planner import SafeRoutePlanner
-from safety_data import SafetyDataManager
-from route_visualizer import RouteVisualizer
+Location (area/neighborhood)
 
-# Initialize components
-planner = SafeRoutePlanner()
-safety_manager = SafetyDataManager()
-visualizer = RouteVisualizer()
+Crime_Type (e.g., Theft, Robbery, etc.)
 
-# Add locations and connections
-planner.add_location("A", {"safety_score": 0.9, "coordinates": (40.7128, -74.0060)})
-planner.add_location("B", {"safety_score": 0.8, "coordinates": (40.7589, -73.9851)})
-planner.add_connection("A", "B", {
-    "distance": 10,
-    "safety_factor": 0.85,
-    "traffic_factor": 1.2
-})
+Crime types are weighted using the CRIME_WEIGHTS dictionary in config.py.
 
-# Find the safest route
-route, cost = planner.find_safest_route("A", "B")
+💡 Usage
+Enter start and end locations manually or by clicking on the map.
 
-# Visualize the route
-map_obj = visualizer.create_safety_map(route, planner.locations)
-visualizer.save_map(map_obj, "route_map.html")
-```
+Adjust the safety threshold and distance limit in the sidebar.
 
-## Project Structure
+The app will compute and display:
 
-- `route_planner.py`: Main implementation of the route planning algorithms
-- `safety_data.py`: Safety data management and risk calculation
-- `route_visualizer.py`: Route visualization with safety indicators
-- `api.py`: FastAPI backend server
-- `test_route_planner.py`: Unit tests
-- `sample_data.py`: Sample data and usage examples
-- `requirements.txt`: Project dependencies
-- `README.md`: Project documentation
+Dijkstra route (blue)
 
-## Algorithm Details
+A route* (green)
 
-### Modified Dijkstra's Algorithm
-The modified version takes into account safety scores and road conditions when calculating the shortest path. It uses a composite cost function that combines:
-- Distance
-- Safety score
-- Road conditions
-- Traffic factors
+Safety score influences path selection (routes through unsafe areas are avoided).
 
-### A* Algorithm
-The A* implementation uses a heuristic function that estimates the remaining cost to the destination while considering safety factors. This makes it more efficient than Dijkstra's algorithm for large networks.
+📞 Emergency Contact Info
+Available in the sidebar for quick reference:
 
-### Safety Scoring
-The safety score is calculated using multiple factors:
-- Crime data
-- Street lighting
-- Weather conditions
-- Accident history
-- Traffic patterns
+🚓 Police: 100
 
-## Real-time Features
+🚑 Ambulance: 108
 
-- Live safety updates
-- Incident reporting
-- Dynamic route adjustments
-- Safety alerts
-- Risk level visualization
+🔥 Fire Station: 101
 
-## License
+🧪 Sample Test Locations
+Try using:
 
-MIT License 
+ISBT Dehradun
+
+Rajpur Road
+
+Clock Tower
+
+Ballupur Chowk
+
+🛠️ TODO / Enhancements
+✅ Add UI to toggle between routing algorithms
+
+📍 Allow saving named locations
+
+📈 Add route analytics (ETA, average safety, etc.)
+
+🧠 Integrate live traffic or police data (future)
+
+📦 Export route summary
+
+📜 License
+This project is released under the MIT License.
